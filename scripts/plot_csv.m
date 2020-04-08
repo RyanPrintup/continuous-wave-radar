@@ -1,7 +1,13 @@
+%%%%%%%%%%%
+% plot_csv.m
+%
+% Description: Reads CSV filename from console and plots data on a graph.
+%              This is a super simple script that assumes 1D data. The
+%              intent was to visualize output from our Arduino DAQ
+% Author:      Ryan Printup
+
 filename = input("Enter the csv filename: ", 's');
 contents = csvread(filename);
-n = 10; % average every n values
-a = contents;
-b = arrayfun(@(i) mean(a(i:i+n-1)),1:n:length(a)-n+1)'; % the averaged vector
+plot(contents);
 
-plot(b);
+%%% End of File %%%
