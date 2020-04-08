@@ -56,31 +56,36 @@ def run(port, baud_rate, out_filename):
 
 
     # Connect to serial port
-    ser = serial.Serial(port, baud_rate)
-    if (ser.is_open == False):
-        ser.open()
+    #ser = serial.Serial(port, baud_rate)
+    #if (ser.is_open == False):
+    #    ser.open()
 
 
     # Open CSV output file and writer
     out_file        = open(out_filename, 'w')
-    out_file_writer = csv.writer(out_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    out_file_writer = csv.writer(out_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
 
 
     # Main loop
     global running
     running = True
     
+    print("Recording Serial Data. Hit Ctrl + C to terminate")
+
     while running:
         # Read a packet of data from serial stream. Remove trailing
         # whitespace, new line character, and byte literal. Split data
         # by spaces.
         buffer = ser.readline().strip().decode('utf-8').split()
-        out_file_writer.writerow(buffer)
+        
+        # Check if buffer is populated
+        if buffer:
+            out_file_writer.writerow(buffer)
 
 
     # Clean up code
     out_file.close()
-    ser.close()
+    #ser.close()
 
 
 def print_usage():
