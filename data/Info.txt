@@ -4,3 +4,8 @@ movement_test: a mix of tests, walking away from and toward the radar, moving to
     wiggling hands back and forth at various speeds
 respiratory_test: me sitting still in a chair close to the radar, to see if we can do breathing. 
     the large spikes at the beginning and end is me moving to turn the script on/off
+next 4 entries are with 10khz sample rate
+movement_test2: random moving forward and backward, waving hands, fairly fast
+movement_test3: slow movement
+respiratory_test2: sitting and breathing
+respiratory_test2: sitting and speaking
