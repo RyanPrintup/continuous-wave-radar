@@ -85,7 +85,7 @@ def run(port, baud_rate, out_filename):
 
     # Clean up code
     out_file.close()
-    #ser.close()
+    ser.close()
 
 
 def print_usage():
