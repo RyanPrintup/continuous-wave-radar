@@ -56,9 +56,9 @@ def run(port, baud_rate, out_filename):
 
 
     # Connect to serial port
-    #ser = serial.Serial(port, baud_rate)
-    #if (ser.is_open == False):
-    #    ser.open()
+    ser = serial.Serial(port, baud_rate)
+    if (ser.is_open == False):
+        ser.open()
 
 
     # Open CSV output file and writer
