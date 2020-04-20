@@ -4,5 +4,6 @@ This repository contains code used for continuous radar circuit designed as part
 ## Directory Structure
     .
     ├── scripts                 # Scripts for testing, debugging, and visualization
-    ├── daq.c                   # Arduino DAQ code
+    ├── data                    # Test data recorded from our radar
+    ├── src                     # Source code for the DAQ and DSP
     └── README.md
