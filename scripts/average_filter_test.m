@@ -9,7 +9,7 @@
 % Settings
 %
 % This is the sample batch sizes to test
-batch_sizes = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+batch_sizes = [1, 10, 50];
 
 
 % Grab file contents
@@ -30,6 +30,11 @@ for batch_i = 1:length(batch_sizes)
         if (batch_end < length(contents))
             % Compute batch average, store in data_out, and increment index
             data_out(data_i) = mean(contents(i:(i + n - 1)));
+            
+            if (abs(data_out(data_i) - 1959) < 5)
+                data_out(data_i) = 1959;
+            end
+            
             data_i = data_i + 1;
         end
     end
