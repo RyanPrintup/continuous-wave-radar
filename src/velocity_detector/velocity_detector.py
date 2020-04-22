@@ -9,13 +9,14 @@ Author : Ryan Printup
 """
 
 
+import numpy as np
 import matplotlib.pyplot as plt
 import signal
 import sys
 import csv
 import filters
 from ring_buf import RingBuffer
-from filters import moving_average
+from filters import moving_average, dc_removal, impulse_noise_removal
 
 
 # Global run variable
@@ -31,6 +32,22 @@ def signal_handler(signal, frame):
     running = False
 
 
+def get_frequencies(samples, sample_rate):
+    """ Todo
+
+        Parameters
+        ----------
+        samples : list
+        
+    """
+
+    N   = len(samples)
+    fft = np.fft.fft(samples)
+
+    return np.fft.fftfreq(N, 1.0 / sample_rate)
+
+
+    
 def run():
     """ This is the main execution function for this script.
         Execution can be interrupted by pressing Ctrl + C
@@ -41,6 +58,8 @@ def run():
     out_data_buf = [] # Output Data Buffer
 
     ring_buf = RingBuffer(10)
+    fft_ring_buf = RingBuffer(1024)
+    ring_buf2 = RingBuffer(20)
 
     # Main loop
     global running
@@ -55,13 +74,18 @@ def run():
             sample = int(row[0])
 
             ### Modify from here on ###
+
             out_data_buf_raw.append(sample)
-            ring_buf.append(sample)
+
+            ring_buf.append(dc_removal(sample))
 
             if ring_buf.full():
-                out_data_buf.append(moving_average(ring_buf.get(), ring_buf.size()))
-                
+                ring_buf2.append(impulse_noise_removal(ring_buf.get()))
 
+            if ring_buf2.full():
+                out_data_buf.append(moving_average(ring_buf2.get()))
+                
+    out_data_buf = fft(out_data_buf)
 
 
 

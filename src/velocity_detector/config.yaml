@@ -1,0 +1,8 @@
+- filtering:
+  - average_bin_size: 10
+    dc_bias_voltage: 1.57
+  sampling:
+  - sampling_freq: 10000
+  serial:
+  - baud_rate: 9600
+    port: COM1
