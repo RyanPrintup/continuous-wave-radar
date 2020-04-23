@@ -1,6 +1,8 @@
-"""
+#!/usr/bin/python
 
-Author: Ryan Printup
+""" Implements a Ring Buffer data type
+
+Original Author: https://www.oreilly.com/library/view/python-cookbook/0596001673/ch05s19.html
 """
 
 class RingBuffer:
