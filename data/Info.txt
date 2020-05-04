@@ -9,3 +9,11 @@ movement_test2: random moving forward and backward, waving hands, fairly fast
 movement_test3: slow movement
 respiratory_test2: sitting and breathing
 respiratory_test2: sitting and speaking
+
+The next 6 samples all are outdoors, going away and back again to the radar
+yard1: joggging 50 feet away and back
+yard2: running 75 feet away and back
+yard3: jogging with large metal plate 25 feet
+yard4: jogging with large metal plate 25 feet
+yard5: jogging with large metal plate 50 feet
+yard6: walking with large metal plate 25 feet
