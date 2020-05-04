@@ -69,7 +69,7 @@ def run():
         # Read a packet of data from serial stream. Remove trailing
         # whitespace, new line character, and byte literal. Split data
         # by spaces.
-        sample = int(ser.readline().strip().decode('utf-8').split())
+        sample = int(ser.readline().strip().decode('utf-8'))
         
         # Check if buffer is populated
         if sample:

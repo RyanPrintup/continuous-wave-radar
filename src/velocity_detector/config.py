@@ -24,8 +24,8 @@ default_cfg = {
         'fft_bin_size': 1000
     },
     'serial': {
-        'baud_rate': 9600,
-        'port': 'COM1'
+        'baud_rate': 115200,
+        'port': 'COM10'
     },
     'sampling': {
         'dc_bias_volt': 1.65,

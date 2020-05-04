@@ -1,0 +1,11 @@
+filtering:
+  average_bin_size: 10
+  fft_bin_size: 1000
+  lowpass_cutoff: 2000
+  lowpass_order: 5
+sampling:
+  dc_bias_volt: 1.55
+  freq: 10000
+serial:
+  baud_rate: 115200
+  port: COM10
