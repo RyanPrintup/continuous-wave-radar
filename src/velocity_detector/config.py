@@ -3,14 +3,19 @@
 """ Implements a basic config file using YAML
 
 The config file will be generated from defaults if it 
-is not found in the directory.
+is not found in the directory. If config file does exist,
+it will be read.
+
+This is a simple script and does not handle any error checking. 
 
 Author: Ryan Printup
 """
 
 
+# Standards
 import yaml
 import os.path
+from math import pow
 
 
 cfg_filename = 'config.yaml'
@@ -18,10 +23,11 @@ cfg_filename = 'config.yaml'
 # Default Config
 default_cfg = {
     'filtering': {
-        'average_bin_size': 10,
-        'lowpass_cutoff': 2000,
-        'lowpass_order': 5,
-        'fft_bin_size': 1000
+        'impulse_bin_size': 50,
+        'avg_bin_size': 10,
+        'fft_bin_size': 1000,
+        'fft_mag_threshold': 0.9,
+        'fft_freq_threshold': 6
     },
     'serial': {
         'baud_rate': 115200,
@@ -29,7 +35,12 @@ default_cfg = {
     },
     'sampling': {
         'dc_bias_volt': 1.65,
+        'analog_ref_volt': 3.3,
+        'bit_res': 12,
         'freq': 10000
+    },
+    'radar': {
+        'freq': int(2 * pow(10, 9))
     }
 }
 
@@ -46,7 +57,7 @@ def get(*argv):
     """
     # Inefficient to duplicate the config variable
     # everytime this method is called, but I don't
-    # think it's critical to care
+    # think it's critical enough to care
     setting = cfg
 
     for arg in argv:

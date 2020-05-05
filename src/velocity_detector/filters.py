@@ -6,57 +6,68 @@ Author: Ryan Printup
 """
 
 
+# Standard
+from statistics import mean
+from math import pow
+
+# Custom
 import config as cfg
-from scipy.signal import butter, lfilter
 
 
-def moving_average(data):
-    """ Computes the moving average from a batch
-        of samples
-
-        Parameters
-        ----------
-        data : [int]
-            A buffer containing the samples
-
-        Return: int - Computed moving average
-    """
-    return sum(data) / len(data)
-
-
-fs = cfg.get('sampling', 'freq')
-nyq = 0.5 * fs
-cutoff = cfg.get('filtering', 'lowpass_cutoff') / nyq 
-order = cfg.get('filtering', 'lowpass_order')
-b, a = butter(order, cutoff, btype='low', analog=False)
-
-def butter_lowpass_filter(data):
-    """ Apply a Butterworth Lowpass filter to a batch of samples
+def impulse_removal(data):
+    """ Detects impulsive spikes and adjusts them to be of
+        similar value to surronding signal
 
         Parameters
         ----------
         data : [int]
-            The samples to apply the filter to
-        
-        Return: [int] - The filtered data
-    """
-    return lfilter(b, a, data)
+            A buffer containing N amount of recent samples
+
+        Return: int - The adjusted data point
+     """
+    N = len(data)
+    u = mean(data)
+
+    # Number of samples above and below the mean
+    marks = {
+        "pos": 0,
+        "neg": 0
+    }
+
+    # Sum of the differences between positive samples
+    # and the mean
+    diff = 0
+
+    for sample in data:
+        if sample > u:
+            marks['pos'] += 1
+            diff += sample - u
+        elif sample < u:
+            marks['neg'] += 1
+
+    return u + (marks['pos'] - marks['neg']) * diff / (N * N)
 
 
-# The following variables are used in the dc_removal() method.
+# The following variables are used in the remove_dc() method.
 # Since we know the DC bias of our circuit, we can compute the
 # digital value and simply remove it from all incoming signals.
 #
+# NOTE: This methodology assumes the DC bias remains constant
+# for the entirety of sampling. Any fluctuations in the DC bias
+# point can skew the output. There are algorithms that detect
+# the DC bias on the fly. This may be worth looking into in the
+# future.
+#
 # The variables are defined outside the function to avoid computing
 # them everytime the function is called.
-#
-# The following two (2) variables are based on
-# the Teensy 4.0 board.
-analog_ref_volt = 3.3 # V
-adc_sample_res = pow(2, 12) - 1 # 12-bit (0-4095)
+analog_ref_volt = cfg.get('sampling', 'analog_ref_volt') # V
+bit_res         = cfg.get('sampling', 'bit_res')         # bits
+dc_bias_volt    = cfg.get('sampling', 'dc_bias_volt')    # V
 
-analog_dc_bias = cfg.get('sampling', 'dc_bias_volt')
-digital_dc_bias = int((adc_sample_res / analog_ref_volt) * analog_dc_bias)
+max_adc_val     = pow(2, bit_res) - 1
+
+# Compute the digital DC bias value 
+digital_dc_bias = int((max_adc_val / analog_ref_volt) * dc_bias_volt)
 
 def remove_dc(data):
     """ Remove the DC bias from a sample
@@ -69,22 +80,6 @@ def remove_dc(data):
         Return: int - Sample without DC bias
     """
     return data - digital_dc_bias
-
-
-def variance_filter(sample, sample_prev):
-    """ Ignores small amplitude changes in the signal
-        to attempt to remove white noise
-
-        Parameters
-        ----------
-        sample : int
-        sample_prev : int
-    """
-
-    if abs(sample - sample_prev) < 5:
-        sample = sample_prev
-    
-    return sample
 
 
 """ End of File """

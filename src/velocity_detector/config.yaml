@@ -1,10 +1,15 @@
 filtering:
-  average_bin_size: 10
+  avg_bin_size: 10
   fft_bin_size: 1000
-  lowpass_cutoff: 2000
-  lowpass_order: 5
+  fft_freq_threshold: 6
+  fft_mag_threshold: 0.9
+  impulse_bin_size: 50
+radar:
+  freq: 2000000000
 sampling:
-  dc_bias_volt: 1.55
+  analog_ref_volt: 3.3
+  bit_res: 12
+  dc_bias_volt: 1.65
   freq: 10000
 serial:
   baud_rate: 115200

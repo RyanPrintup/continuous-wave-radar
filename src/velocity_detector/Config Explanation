@@ -1,0 +1,70 @@
+-- This section contains all settings
+-- related to data filtering
+filtering:
+  -- This is the amount of samples that will
+  -- be used when computing the moving average.
+  --
+  -- IMPORTANT: This downsamples the frequency.
+  -- For example, ADC samples at 10kHz. If the
+  -- bin size is 10 samples, then our true
+  -- sampling frequency is 1kHz (10 kHz / 10)
+  avg_bin_size: 10
+
+  -- This is the amount of samples used to compute
+  -- the FFT. This should be based on the true sampling
+  -- frequency as described above. For example, this defaults
+  -- to 1000 samples which is equal to our true sampling frequency
+  -- of 1kHz meaning we perform a FFT every 1 second
+  fft_bin_size: 1000
+
+  -- The velocity is detected by the dominant frequency in our FFT.
+  -- This is computed by finding the greatest magnitude in the spectrum
+  -- and outputting the corresponding frequency.
+  --
+  -- The frequency threshold limits which frequencies can be considered
+  -- dominant. Think of it as a high pass filter. I found there to be a lot
+  -- of noise in the lower frequencies that would dominant any other frequencies.
+  -- I set this to 6 because it equates to 0.45 m/s for our radar. I figured
+  -- anything below that was not worth detecting.
+  --
+  -- May be beneficial to adjust.
+  fft_freq_threshold: 6
+
+  -- The magnitude threshold limits which magnitudes can be considered max. 
+  -- This is meant to combat noise. If no mangitudes are detected above this
+  -- setting, the frequency will be assumed 0 and no movement will be recorded.
+  --
+  -- I found most noise occurs under 1 and anything greater should be considered movement.
+  -- This depends on the returned amplitude of the doppler shift, however.
+  -- Adjusting may be beneficial.
+  fft_mag_threshold: 0.9
+
+  -- This is the amount of samples used to remove 
+  -- impulsive noise. Generally, higher is better, but
+  -- too high and the signal will be smoothed too much.
+  -- I had good results with 50
+  impulse_bin_size: 50
+
+-- This section contains settings for our radar hardware
+radar:
+  -- The radar frequency
+  freq: 2000000000
+
+-- This sections contains settings for our ADC
+sampling:
+  -- These next two shouldnt change. Theyre based on the Teensy
+  analog_ref_volt: 3.3
+  bit_res: 12
+
+  -- Our DC bias point voltage
+  -- Most of my testing revealed a true value of around 1.58
+  dc_bias_volt: 1.65
+
+  -- The sampling frequency
+  freq: 10000
+
+-- This section contains settings for serial communication
+serial:
+  -- Self explanatory
+  baud_rate: 115200
+  port: COM10

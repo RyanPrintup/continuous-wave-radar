@@ -9,7 +9,7 @@
 % Settings
 %
 % This is the sample batch sizes to test
-batch_sizes = [1, 10, 50];
+batch_sizes = [10];
 
 
 % Grab file contents
