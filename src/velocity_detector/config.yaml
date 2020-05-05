@@ -2,14 +2,14 @@ filtering:
   avg_bin_size: 10
   fft_bin_size: 1000
   fft_freq_threshold: 6
-  fft_mag_threshold: 0.9
+  fft_mag_threshold: 0.6
   impulse_bin_size: 50
 radar:
   freq: 2000000000
 sampling:
   analog_ref_volt: 3.3
   bit_res: 12
-  dc_bias_volt: 1.65
+  dc_bias_volt: 1.57
   freq: 10000
 serial:
   baud_rate: 115200
